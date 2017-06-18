@@ -6,8 +6,6 @@
 package json;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public class cariBerkas extends HttpServlet {
 private HttpServletRequest req;
 private HttpServletResponse res;
-private org.json.simple.JSONArray a;
+private org.json.simple.JSONObject one;
 private util.Db d;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,11 +35,12 @@ private util.Db d;
             throws ServletException, IOException {
         req=request;
         res=response;
-        a=new org.json.simple.JSONArray();try {
+        one=new org.json.simple.JSONObject();try {
         showJSON();
+        d.close();
     } catch (Exception ex) {
         util.Db.hindar(ex, req.getRemoteAddr());
-    }a.writeJSONString(res.getWriter());
+    }one.writeJSONString(res.getWriter());
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -91,11 +90,17 @@ private util.Db d;
         }else loadAll();
     }
 
-    private void loadWith(String s) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void loadWith(String s) throws Exception {
     }
 
-    private void loadAll() {
-        //
+    private void loadAll() throws Exception {
+        entity.dao.DAOBerkas dao=new entity.dao.DAOBerkas(d.genDB());
+        util.RSA r=util.Work.loadRSA();
+        org.json.simple.JSONArray a=new org.json.simple.JSONArray();
+        java.util.List<entity.Berkas>l=dao.all();
+        int batas=Integer.parseInt(req.getParameter("no"));
+        one.put("size", (l.size()/30)+1);
+        one.put("datas", a);
+        one.put("no", batas);
     }
 }

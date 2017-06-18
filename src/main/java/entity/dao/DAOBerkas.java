@@ -45,16 +45,30 @@ public class DAOBerkas implements DAO<Berkas>{
 
     @Override
     public void update(Berkas a, Berkas b) throws Exception {
-        d.getCollectionFromString("berkas").update(a.genDBO(), b.genDBO());
+        com.mongodb.DBObject o=new com.mongodb.BasicDBObject();
+        o.put("path", a.getPath());
+        d.getCollectionFromString("berkas").update(o, b.genDBO());
     }
 
     @Override
     public List<Berkas> all() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Berkas>l=new java.util.LinkedList<>();
+        com.mongodb.DBObject o=new com.mongodb.BasicDBObject();
+        o.put("deleted", "false");
+        com.mongodb.DBCursor c=d.getCollectionFromString("berkas").find(o);
+        while(c.hasNext())l.add(new Berkas(c.next()));
+        c.close();
+        return l;
     }
 
     @Override
     public List<Berkas> sampah() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Berkas>l=new java.util.LinkedList<>();
+        com.mongodb.DBObject o=new com.mongodb.BasicDBObject();
+        o.put("deleted", "true");
+        com.mongodb.DBCursor c=d.getCollectionFromString("berkas").find(o);
+        while(c.hasNext())l.add(new Berkas(c.next()));
+        c.close();
+        return l;
     }
 }

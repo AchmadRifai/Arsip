@@ -29,7 +29,7 @@ public class Berkas {
     public Berkas() {
     }
 
-    private Berkas(DBObject o) {
+    public Berkas(DBObject o) {
         nama=""+o.get("nama");
         tipe=""+o.get("tipe");
         extensi=""+o.get("extensi");
