@@ -36,7 +36,7 @@ public class Header {
         o.print("<style type=\"text/css\">");
         o.print("body {background-color: #AFAFAF;}");
         o.print(".ui.menu .item img.logo {margin-right: 1.5em;}");
-        o.print(".main.container {margin-top: 7em;}");
+        o.print(".main.container {margin-top: 7em;background-color: wheat;}");
         o.print(".wireframe {margin-top: 2em;}");
         o.print(".ui.footer.segment {margin: 5em 0em 0em;padding: 5em 0em;}");
         o.print("</style>");
